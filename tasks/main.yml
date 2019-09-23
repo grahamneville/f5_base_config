@@ -1,0 +1,34 @@
+---
+# tasks file for roles/f5_base_config
+
+- name: Set the hostname of the BIG-IP
+  bigip_hostname:
+    hostname: "{{ inventory_hostname }}.localhost.localdomain"
+    provider: "{{ provider }}"
+  delegate_to: localhost
+
+- name: Set NTP server
+  bigip_device_ntp:
+    ntp_servers:
+      - 1.1.1.1
+      - 8.8.8.8
+    provider: "{{ provider }}"
+  delegate_to: localhost
+
+- name: Set timezone
+  bigip_device_ntp:
+    timezone: Europe/London
+    provider: "{{ provider }}"
+  delegate_to: localhost
+
+- name: Set the DNS settings on the BIG-IP
+  bigip_device_dns:
+    name_servers:
+      - 208.67.222.222
+      - 208.67.220.220
+    search:
+      - localdomain
+      - lab.local
+    provider: "{{ provider }}"
+  delegate_to: localhost
+
